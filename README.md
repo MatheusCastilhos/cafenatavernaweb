@@ -1,78 +1,149 @@
-# Frontend - React + TypeScript + Material UI
+# **Frontend – Café na Taverna**
 
-Aplicação frontend construída com React, TypeScript, Vite e Material UI.
+Aplicação frontend desenvolvida em **React + TypeScript + Vite**, usando **Material UI** para a interface.
+Consome a API Node.js que gerencia episódios do podcast *Café na Taverna*.
 
-## Tecnologias
+---
 
-- React 18
-- TypeScript
-- Vite
-- Material UI (MUI)
-- React Router DOM
-- Emotion (CSS-in-JS)
+## 🎧 Tecnologias Utilizadas
 
-## Instalação
+* **React 18**
+* **TypeScript**
+* **Vite**
+* **Material UI (MUI)**
+* **React Router DOM v6**
+* **React H5 Audio Player**
+* **React Quill (Admin)**
+* **CSS-in-JS (Emotion)**
+
+---
+
+## 🚀 Instalação
 
 ```bash
 npm install
 ```
 
-## Desenvolvimento
+---
+
+## 🧪 Ambiente de Desenvolvimento
 
 ```bash
 npm run dev
 ```
 
-Acesse: http://localhost:3000
+Acesse em: **[http://localhost:3000](http://localhost:3000)**
 
-## Build para Produção
+---
+
+## 📦 Build para Produção
 
 ```bash
 npm run build
 ```
 
-## Preview da Build
+---
+
+## 🔍 Preview da Build
 
 ```bash
 npm run preview
 ```
 
-## Estrutura
+---
+
+## 🗂️ Estrutura de Pastas
 
 ```
 src/
-├── components/     # Componentes reutilizáveis
-│   └── Layout.tsx  # Layout principal com navegação
-├── pages/          # Páginas da aplicação
+├── admin/                 # Área administrativa (dashboard, lista, edição)
+│   ├── AdminDashboard.tsx
+│   ├── AdminEpisodes.tsx
+│   └── AdminEpisodeEdit.tsx
+│
+├── components/
+│   └── Layout.tsx         # Header + Footer
+│
+├── pages/
 │   ├── Home.tsx
-│   ├── About.tsx
-│   ├── Dashboard.tsx
+│   ├── Episodes.tsx       # Lista pública de episódios
+│   ├── EpisodePage.tsx    # Página de episódio individual
+│   ├── Sobre.tsx
+│   ├── Player.tsx
 │   └── NotFound.tsx
-├── App.tsx         # Configuração de rotas
-└── main.tsx        # Ponto de entrada
+│
+├── App.tsx                # Definição das rotas
+└── main.tsx               # Entry point
 ```
 
-## Rotas
+---
 
-- `/` - Home
-- `/about` - Sobre
-- `/dashboard` - Dashboard
-- `*` - 404 Not Found
+## 🌐 Rotas Públicas
 
-## Customização do Tema
+| Rota                       | Descrição                                 |
+| -------------------------- | ----------------------------------------- |
+| `/`                        | Página inicial (hero + últimos episódios) |
+| `/sobre`                   | Sobre o podcast                           |
+| `/episodios`               | Lista completa de episódios publicados    |
+| `/episodio/:episodeNumber` | Página individual do episódio             |
+| `*`                        | Página 404                                |
 
-Edite o tema do Material UI em `src/main.tsx`:
+---
 
-```typescript
+## 🔐 Rotas do Admin
+
+| Rota                   | Descrição                                  |
+| ---------------------- | ------------------------------------------ |
+| `/admin`               | Dashboard (estatísticas gerais)            |
+| `/admin/episodios`     | Lista administrativa dos episódios         |
+| `/admin/episodios/:id` | Página de edição (por ObjectId do MongoDB) |
+
+> **Atenção:**
+> A área administrativa ainda não possui autenticação, mas está preparada para receber middleware futuramente.
+
+---
+
+## 🎨 Customização do Tema (Material UI)
+
+O tema principal pode ser alterado em `main.tsx`:
+
+```ts
 const theme = createTheme({
   palette: {
-    mode: 'light',
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
+    mode: "dark",
+    primary: { main: "#c37b39" },
+    secondary: { main: "#8e44ad" },
   },
-})
+});
 ```
+
+---
+
+## 🔌 Comunicação com a API
+
+As requisições usam:
+
+```
+http://localhost:5000
+```
+
+Rotas consumidas:
+
+* `GET /episodes/published`
+* `GET /episodes/by-number/:num`
+* `GET /episodes/download/:id`
+* Admin:
+
+  * `GET /episodes`
+  * `PUT /episodes/id/:id`
+  * `PUT /episodes/publish-all`
+  * `PUT /episodes/unpublish-all`
+  * `POST /episodes/sync`
+
+---
+
+## ☕ Sobre o Projeto
+
+Esse frontend foi criado para oferecer uma experiência moderna e responsiva para os ouvintes do podcast **Café na Taverna**, integrando-se ao backend para exibir, tocar e gerenciar episódios.
+
+---
