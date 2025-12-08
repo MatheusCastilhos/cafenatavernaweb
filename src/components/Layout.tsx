@@ -1,4 +1,4 @@
-import { Outlet, Link as RouterLink } from "react-router-dom";
+import { Outlet, Link as RouterLink, useLocation } from "react-router-dom";
 import {
   AppBar,
   Box,
@@ -7,12 +7,13 @@ import {
   Button,
   Container,
   Menu,
-  MenuItem
+  MenuItem,
 } from "@mui/material";
 import { useState } from "react";
 
 const Layout = () => {
-  // Controle do menu "Podcast"
+  const location = useLocation();
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -24,23 +25,46 @@ const Layout = () => {
     setAnchorEl(null);
   };
 
+  const isActive = (path: string) => location.pathname === path;
+  const isPodcastSection =
+    location.pathname.startsWith("/episodio") ||
+    location.pathname.startsWith("/episodios") ||
+    location.pathname.startsWith("/player");
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      
       {/* NAVBAR */}
-      <AppBar position="static" color="primary">
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: "#222120",
+          boxShadow: "none",
+          borderBottom: "1px solid #000",
+        }}
+      >
         <Toolbar sx={{ display: "flex", alignItems: "center" }}>
-
           {/* ESQUERDA — LOGO */}
-          <Box sx={{ flex: 1 }}>
-            <Typography
-              variant="h6"
+          <Box sx={{ flex: 1, display: "flex", alignItems: "center" }}>
+            <Box
               component={RouterLink}
               to="/"
-              sx={{ textDecoration: "none", color: "inherit" }}
+              sx={{
+                display: "inline-flex",
+                alignItems: "center",
+                textDecoration: "none",
+              }}
             >
-              Café na Taverna
-            </Typography>
+              <Box
+                component="img"
+                src="/logos/Text.png"
+                alt="Café na Taverna"
+                sx={{
+                  height: 36,
+                  width: "auto",
+                  display: "block",
+                }}
+              />
+            </Box>
           </Box>
 
           {/* CENTRO — MENU */}
@@ -50,19 +74,38 @@ const Layout = () => {
               display: "flex",
               justifyContent: "center",
               gap: 2,
-              alignItems: "center"
+              alignItems: "center",
             }}
           >
-            <Button component={RouterLink} to="/sobre" color="inherit">
+            <Button
+              component={RouterLink}
+              to="/sobre"
+              sx={{
+                textTransform: "none",
+                color: isActive("/sobre") ? "#ce713b" : "#ffffff",
+              }}
+            >
               Sobre
             </Button>
 
-            <Button component={RouterLink} to="/" color="inherit">
+            <Button
+              component={RouterLink}
+              to="/"
+              sx={{
+                textTransform: "none",
+                color: isActive("/") ? "#ce713b" : "#ffffff",
+              }}
+            >
               Início
             </Button>
 
-            {/* MENU PODCAST */}
-            <Button color="inherit" onClick={handleOpenMenu}>
+            <Button
+              onClick={handleOpenMenu}
+              sx={{
+                textTransform: "none",
+                color: isPodcastSection ? "#ce713b" : "#ffffff",
+              }}
+            >
               Podcast
             </Button>
 
@@ -74,7 +117,6 @@ const Layout = () => {
               >
                 Episódios
               </MenuItem>
-
               <MenuItem
                 component={RouterLink}
                 to="/player"
@@ -85,14 +127,13 @@ const Layout = () => {
             </Menu>
           </Box>
 
-          {/* DIREITA — VAZIO (balanceamento para centralizar o menu) */}
+          {/* DIREITA — “peso” pra centralizar o menu */}
           <Box sx={{ flex: 1 }} />
-
         </Toolbar>
       </AppBar>
 
-      {/* CONTEÚDO DAS PÁGINAS */}
-      <Box sx={{ flexGrow: 1, p: 3 }}>
+      {/* CONTEÚDO DAS PÁGINAS — sem padding aqui */}
+      <Box sx={{ flexGrow: 1 }}>
         <Outlet />
       </Box>
 
@@ -101,13 +142,13 @@ const Layout = () => {
         component="footer"
         sx={{
           py: 2,
-          backgroundColor: "#e0e0e0",
-          mt: "auto"
+          backgroundColor: "#222120",
+          mt: "auto",
         }}
       >
         <Container maxWidth="sm">
-          <Typography variant="body2" align="center">
-            © {new Date().getFullYear()} Café na Taverna
+          <Typography variant="body2" align="center" color="#d4d4d4ff">
+            © {new Date().getFullYear()} Café na Taverna | by Castilhos, Kologeski e Porto
           </Typography>
         </Container>
       </Box>

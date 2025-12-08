@@ -96,10 +96,26 @@ const EpisodePage = () => {
     <Container maxWidth="md" sx={{ py: 8 }}>
       {/* voltar */}
       <Button
+        variant="outlined"
         component={RouterLink}
         to="/episodios"
-        variant="outlined"
-        sx={{ mb: 3 }}
+        size="medium"
+        sx={{
+          mt: 2,
+          mb: 4,
+          borderColor: "#202020",
+          color: "#202020",
+          textTransform: "none",
+          px: 4,
+          py: 1.2,
+          fontSize: "1rem",
+          fontWeight: 600,
+          borderRadius: 999,
+          "&:hover": {
+            borderColor: "#202020",
+            backgroundColor: "rgba(255,255,255,0.15)",
+          }
+        }}
       >
         Voltar para episódios
       </Button>
@@ -122,12 +138,6 @@ const EpisodePage = () => {
 
         {/* título e infos */}
         <Grid item xs={12} md={8}>
-          <Typography variant="subtitle1" color="text.secondary" sx={{ mb: 1 }}>
-            {data.episodeNumber
-              ? `Café na Taverna #${data.episodeNumber}`
-              : null}
-          </Typography>
-
           <Typography variant="subtitle1" color="text.secondary" sx={{ mb: 1 }}>
             {data.season && data.episode
               ? `Temporada ${data.season} · Episódio ${data.episode}`
@@ -186,6 +196,22 @@ const EpisodePage = () => {
       {data._id && (
         <Button
           variant="outlined"
+          size="large"
+          sx={{
+            mt: 2,
+            borderColor: "#202020",
+            color: "#202020",
+            textTransform: "none",
+            px: 4,
+            py: 1.2,
+            fontSize: "1rem",
+            fontWeight: 600,
+            borderRadius: 999,
+            "&:hover": {
+              borderColor: "#202020",
+              backgroundColor: "rgba(255,255,255,0.15)",
+            }
+          }}
           onClick={() => {
             window.open(
               `${API_BASE}/episodes/download/${data._id}`,
